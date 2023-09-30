@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<img src="C:\Users\amjad\Downloads\odium (1)-PhotoRoom.png" width="90" height="90">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #444;
+            background-color: #333;
+        }
+
+        #post-form {
+            margin-bottom: 20px;
+        }
+
+        #post-input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #333;
+        }
+
+        #post-input::placeholder {
+            color: #999;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        #timeline {
+            border-bottom: 1px solid #444;
+            margin-bottom: 20px;
+        }
+
+        .private-message {
+            background-color: #555;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+   
+    <div id="app">
+        <div id="post-form">
+            <textarea id="post-input" placeholder="ecrire"></textarea>
+            <button onclick="submitPost()">Poster</button>
+        </div>
+        <div id="timeline"></div>
+        <div id="private-messages"></div>
+    </div>
+
+    <script>
+        function submitPost() {
+            const postInput = document.getElementById('post-input');
+            const timeline = document.getElementById('timeline');
+
+            const postText = postInput.value;
+
+            // Add the new post to the timeline
+            const postElement = document.createElement('div');
+            postElement.textContent = postText;
+            timeline.appendChild(postElement);
+
+            // Clear the input
+            postInput.value = '';
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // Example AJAX request using jQuery
+        $(document).ready(function () {
+            $.ajax({
+                url: 'https://jsonplaceholder.typicode.com/posts/1',
+                method: 'GET',
+                success: function (data) {
+                    console.log('AJAX Response:', data);
+                },
+                error: function (error) {
+                    console.error('AJAX Error:', error);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Example Node.js with Express server (not executable in the browser)
+        const express = require('express');
+        const app = express();
+        const port = 3000;
+
+        app.use(express.static('public'));
+
+        app.listen(port, () => {
+            console.log(`Server listening at http://localhost:${port}`);
+        });
+    </script>
+    <!-- Ton code HTML existant ... -->
+
+    
+        
+</script>
+
+</body>
+</html>
+
+    </script>
+
+<!-- Les autres scripts existants ... -->
+
+</body>
+</html>
+
+</body>
+</html>
+
+</body>
+</html>
+
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const savedMessages = localStorage.getItem('odiumMessages');
+        if (savedMessages) {
+            const timeline = document.getElementById('timeline');
+            timeline.innerHTML = savedMessages;
+            attachDeleteButtons();
+        }
+    });
+
+    function submitPost() {
+        const postInput = document.getElementById('post-input');
+        const timeline = document.getElementById('timeline');
+
+        const postText = postInput.value;
+
+        // Obtenir la date actuelle et la formater
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        });
+
+        // Ajouter le nouveau message à la timeline avec la date abrégée
+        const postElement = document.createElement('div');
+        postElement.textContent = `${formattedDate} - ${postText}`;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Supprimer';
+        deleteButton.onclick = function () {
+            deletePost(postElement);
+        };
+
+        postElement.appendChild(deleteButton);
+        timeline.appendChild(postElement);
+
+        saveMessagesLocally();
+
+        postInput.value = '';
+        attachDeleteButtons();
+    }
+
+    function deletePost(postElement) {
+        const timeline = document.getElementById('timeline');
+        timeline.removeChild(postElement);
+        saveMessagesLocally();
+    }
+
+    function deleteAllPosts() {
+        const timeline = document.getElementById('timeline');
+        timeline.innerHTML = ''; // Supprime tous les messages
+        saveMessagesLocally();
+    }
+
+    function saveMessagesLocally() {
+        const timeline = document.getElementById('timeline');
+        localStorage.setItem('odiumMessages', timeline.innerHTML);
+    }
+
+    function attachDeleteButtons() {
+        const deleteButtons = document.querySelectorAll('button[textContent="Supprimer"]');
+        deleteButtons.forEach(button => {
+            button.onclick = function () {
+                const postElement = button.parentNode;
+                deletePost(postElement);
+            };
+        });
+    }
+</script>
